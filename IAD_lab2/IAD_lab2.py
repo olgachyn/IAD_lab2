@@ -32,7 +32,7 @@ linear_svc.fit(X_train_scaled, y_train)
 svc_linear.fit(X_train_scaled, y_train)
 
 linear_svc_small = LinearSVC(C=100, max_iter=10000, random_state=42)
-svc_linear_small = SVC(kernel='linear', C=0.1, random_state=42)
+svc_linear_small = SVC(kernel='linear', C=100, random_state=42)
 
 linear_svc_small.fit(X_train_scaled, y_train)
 svc_linear_small.fit(X_train_scaled, y_train)

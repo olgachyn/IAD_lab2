@@ -73,3 +73,39 @@ for degree in degrees:
 
 for name, model in svc_poly_models.items():
     plot_decision_boundary(model, X_val_scaled, y_val, f'Decision Boundary: {name}')
+
+gamma_values = [0.1, 10]
+C_values = [0.01, 1, 100]
+
+svc_rbf_models = {}
+
+for gamma in gamma_values:
+    for C_val in C_values:
+        model_name = f'SVC_rbf_gamma_{gamma}_C_{C_val}'
+        svc_rbf = SVC(kernel='rbf', gamma=gamma, C=C_val, random_state=42)
+        svc_rbf.fit(X_train_scaled, y_train)
+        svc_rbf_models[model_name] = svc_rbf
+
+
+for name, model in svc_rbf_models.items():
+    plot_decision_boundary(model, X_val_scaled, y_val, f'Decision Boundary: {name}')
+
+param_grid_poly = {
+    'C': [0.1, 1, 10, 100],
+    'degree': [2, 3, 4],
+    'coef0': [0, 1, 10]
+}
+
+grid_search_poly = GridSearchCV(
+    SVC(kernel='poly', random_state=42),
+    param_grid=param_grid_poly,
+    cv=5,
+    scoring='accuracy',
+    n_jobs=-1,
+    verbose=2
+)
+
+grid_search_poly.fit(X_train_scaled, y_train)
+
+print(f'Best parameters for SVC with polynomial kernel: {grid_search_poly.best_params_}')
+print(f'Best accuracy: {grid_search_poly.best_score_:.4f}')
